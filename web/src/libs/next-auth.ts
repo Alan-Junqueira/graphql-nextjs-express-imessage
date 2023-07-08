@@ -1,8 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "./prisma";
-import { Adapter } from "next-auth/adapters";
 
 function getGoogleCredentials() {
   const clientId = process.env.GOOGLE_CLIENT_ID
@@ -20,11 +19,17 @@ function getGoogleCredentials() {
 }
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: 'jwt'
+  },
+  pages: {
+    signIn: "/login"
+  },
   providers: [
     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
     })
-  ],
-  adapter: PrismaAdapter(prisma) as Adapter
+  ]
 }
