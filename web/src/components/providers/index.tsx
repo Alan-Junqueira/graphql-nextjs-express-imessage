@@ -1,20 +1,22 @@
 'use client'
 
-import { SessionProvider } from "next-auth/react"
 import { ReactNode } from "react"
+import { CacheProvider } from '@chakra-ui/next-js'
+import { ChakraProvider } from '@chakra-ui/react'
+import { theme } from "@/chakra/theme"
 
 interface IProviders {
-  session: any
   children: ReactNode
 }
 
 export const Providers = ({
-  session,
   children
 }: IProviders) => {
   return (
-    <SessionProvider session={session}>
-      {children}
-    </SessionProvider>
+    <CacheProvider>
+      <ChakraProvider theme={theme}>
+        {children}
+      </ChakraProvider>
+    </CacheProvider>
   )
 }

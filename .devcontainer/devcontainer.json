@@ -28,7 +28,10 @@
 				"prisma.prisma",
 				"humao.rest-client",
 				"esbenp.prettier-vscode",
-				"dbaeumer.vscode-eslint"
+				"dbaeumer.vscode-eslint",
+				"naumovs.color-highlight",
+				"streetsidesoftware.code-spell-checker-portuguese-brazilian",
+				"streetsidesoftware.code-spell-checker"
 			]
 		}
 	}

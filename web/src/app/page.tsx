@@ -1,28 +1,13 @@
-'use client'
+import { authOptions } from '@/libs/next-auth';
+import { getServerSession } from 'next-auth';
 
-import { signIn } from 'next-auth/react'
-import { useState } from 'react';
-
-export default function Home() {
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleLoginWithGoogle = async () => {
-    setIsLoading(true)
-    try {
-      await signIn('google')
-    } catch (error) {
-      // display error message to user
-      console.log(error)
-      // toast.error('Something went wrong with your login.')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
+export default async function Home() {
+  const session = await getServerSession(authOptions)
+  console.log(session?.user)
   return (
     <div>
-      <button onClick={handleLoginWithGoogle}>Logar</button>
+      
+      <pre>home</pre>
     </div>
   )
 }

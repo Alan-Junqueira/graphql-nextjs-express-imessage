@@ -31,5 +31,6 @@ export const authOptions: NextAuthOptions = {
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
     })
-  ]
+  ],
+  secret: process.env.NEXTAUTH_SECRET
 }
