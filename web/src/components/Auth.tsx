@@ -11,7 +11,9 @@ import {
   Button,
   FormControl
 } from "@/chakra/chakra-components"
-import { updateUser } from '@/app/actions/update-user'
+import { useMutation } from '@apollo/client'
+import { userOperations } from '@/graphql/operations/user'
+import { FormEvent, useState } from 'react'
 
 interface IAuthProps {
   session: Session | null
@@ -22,6 +24,23 @@ export const Auth = ({
   session,
   reloadSession
 }: IAuthProps) => {
+  const [username, setUsername] = useState('')
+  const [createUsername, { data, loading, error }] = useMutation(userOperations.Mutations.createUsername)
+
+  const handleUpdateUser = async (e: FormEvent) => {
+    e.preventDefault()
+    try {
+      if (!username) return
+      await createUsername({
+        variables: { username }
+      })
+
+      console.log(username)
+    } catch (error) {
+      console.log('updateUser error', error)
+    }
+  }
+
   return (
     <Center
       height="100vh"
@@ -39,15 +58,16 @@ export const Auth = ({
             </Text>
             <FormControl
               as="form"
-              action={updateUser}
               display="flex"
               flexDirection="column"
               alignItems="center"
               gap={8}
+              onSubmit={e => handleUpdateUser(e)}
             >
               <Input
                 placeholder='Enter a username'
-                name='username'
+                value={username}
+                onChange={e => setUsername(e.target.value)}
               />
               <Button
                 type='submit'

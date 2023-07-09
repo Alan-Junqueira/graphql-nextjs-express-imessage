@@ -33,7 +33,8 @@
 				"streetsidesoftware.code-spell-checker-portuguese-brazilian",
 				"streetsidesoftware.code-spell-checker",
 				"graphql.vscode-graphql-syntax",
-				"graphql.vscode-graphql"
+				"graphql.vscode-graphql",
+				"burkeholland.simple-react-snippets"
 			]
 		}
 	}
