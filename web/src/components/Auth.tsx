@@ -14,6 +14,7 @@ import {
 import { useMutation } from '@apollo/client'
 import { userOperations } from '@/graphql/operations/user'
 import { FormEvent, useState } from 'react'
+import { ICreateUsernameData, ICreateUsernameVariables } from '@/@types/types'
 
 interface IAuthProps {
   session: Session | null
@@ -25,7 +26,12 @@ export const Auth = ({
   reloadSession
 }: IAuthProps) => {
   const [username, setUsername] = useState('')
-  const [createUsername, { data, loading, error }] = useMutation(userOperations.Mutations.createUsername)
+  const [
+    createUsername,
+    { data, loading, error }
+  ] = useMutation<ICreateUsernameData, ICreateUsernameVariables>(userOperations.Mutations.createUsername)
+
+  console.log('HERE IS THE DATA', data, loading, error)
 
   const handleUpdateUser = async (e: FormEvent) => {
     e.preventDefault()
