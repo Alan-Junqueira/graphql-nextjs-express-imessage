@@ -31,7 +31,9 @@
 				"dbaeumer.vscode-eslint",
 				"naumovs.color-highlight",
 				"streetsidesoftware.code-spell-checker-portuguese-brazilian",
-				"streetsidesoftware.code-spell-checker"
+				"streetsidesoftware.code-spell-checker",
+				"graphql.vscode-graphql-syntax",
+				"graphql.vscode-graphql"
 			]
 		}
 	}
