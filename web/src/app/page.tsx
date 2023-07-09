@@ -1,13 +1,21 @@
 import { authOptions } from '@/libs/next-auth';
 import { getServerSession } from 'next-auth';
 
+import { Box } from "@/chakra/chakra-components"
+
 export default async function Home() {
   const session = await getServerSession(authOptions)
-  console.log(session?.user)
   return (
-    <div>
-      
-      <pre>home</pre>
-    </div>
+    <Box>
+      {session?.user ? (
+        <>
+          {/* <Chat /> */}
+        </>
+      ) : (
+        <>
+          {/* <Auth /> */}
+        </>
+      )}
+    </Box>
   )
 }
