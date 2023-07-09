@@ -1,12 +1,23 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
-import { Button } from "@/chakra/chakra-components"
+import { Button, ButtonProps } from "@/chakra/chakra-components"
+import { ReactNode } from 'react'
 
-export const SignInButton = () => {
+interface ISignInButtonProps extends ButtonProps {
+  children: ReactNode
+}
+
+export const SignInButton = ({
+  children,
+  ...props
+}: ISignInButtonProps) => {
   return (
-    <Button onClick={() => signIn('google')}>
-      Sign In
+    <Button
+      onClick={() => signIn('google')}
+      {...props}
+    >
+      {children}
     </Button>
   )
 }
