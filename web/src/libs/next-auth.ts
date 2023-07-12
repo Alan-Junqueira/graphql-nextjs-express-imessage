@@ -23,14 +23,19 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt'
   },
-  pages: {
-    signIn: "/login"
-  },
   providers: [
     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async session({ session, user, token }) {
+      return session
+    },
+    async jwt({ account, token, user, profile, session, trigger }) {
+      return token
+    }
+  }
 }

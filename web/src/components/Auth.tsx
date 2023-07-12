@@ -29,9 +29,15 @@ export const Auth = ({
   const [
     createUsername,
     { data, loading, error }
-  ] = useMutation<ICreateUsernameData, ICreateUsernameVariables>(userOperations.Mutations.createUsername)
+  ] = useMutation<ICreateUsernameData, ICreateUsernameVariables>(userOperations.Mutations.createUsername, {
+    context: {
+      session
+    }
+  })
 
   console.log('HERE IS THE DATA', data, loading, error)
+
+  console.log(session)
 
   const handleUpdateUser = async (e: FormEvent) => {
     e.preventDefault()
@@ -41,7 +47,6 @@ export const Auth = ({
         variables: { username }
       })
 
-      console.log(username)
     } catch (error) {
       console.log('updateUser error', error)
     }

@@ -8,6 +8,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, authOptions)
 }
 // const handler = NextAuth(authOptions)
-console.log("Entrou na rota [...nextauth]")
 
 export { handler as GET, handler as POST }
