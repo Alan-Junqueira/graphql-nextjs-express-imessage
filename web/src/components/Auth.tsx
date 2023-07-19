@@ -13,8 +13,9 @@ import {
 } from "@/chakra/chakra-components"
 import { useMutation } from '@apollo/client'
 import { userOperations } from '@/graphql/operations/user'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { ICreateUsernameData, ICreateUsernameVariables } from '@/@types/types'
+import { getSession } from 'next-auth/react'
 
 interface IAuthProps {
   session: Session | null
@@ -29,22 +30,16 @@ export const Auth = ({
   const [
     createUsername,
     { data, loading, error }
-  ] = useMutation<ICreateUsernameData, ICreateUsernameVariables>(userOperations.Mutations.createUsername, {
-    context: {
-      session
-    }
-  })
+  ] = useMutation<ICreateUsernameData, ICreateUsernameVariables>(userOperations.Mutations.createUsername)
 
   console.log('HERE IS THE DATA', data, loading, error)
-
-  console.log(session)
 
   const handleUpdateUser = async (e: FormEvent) => {
     e.preventDefault()
     try {
       if (!username) return
       await createUsername({
-        variables: { username }
+        variables: { username },
       })
 
     } catch (error) {
