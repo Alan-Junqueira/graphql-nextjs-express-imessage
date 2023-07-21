@@ -1,6 +1,4 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
-import { NextSSRInMemoryCache, NextSSRApolloClient } from "@apollo/experimental-nextjs-app-support/ssr";
-import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000/graphql',

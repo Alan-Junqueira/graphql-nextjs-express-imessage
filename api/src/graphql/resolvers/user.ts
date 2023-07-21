@@ -1,4 +1,5 @@
 import { GraphQlContext, ICreateUsernameResponse } from "../../@types/types"
+import { CreateUsernameProps } from "../typeDefs/userDTO"
 
 export const userResolvers = {
   Query: {
@@ -7,44 +8,41 @@ export const userResolvers = {
   Mutation: {
     createUsername: async (
       _parent: any,
-      args: { username: string },
+      args: CreateUsernameProps,
       context: GraphQlContext,
       _info: any
     ): Promise<ICreateUsernameResponse> => {
-      const { username } = args
-      const { prisma, session } = context
-      console.log("Hey at the api", username)
-      console.log("Here is the context", context)
+      // const { prisma, session } = context
 
-      if (!session?.user) {
-        return {
-          error: "Not authorized"
-        }
-      }
+      // if (!args.email || !args.image || !args.name || args.userId) {
+      //   return {
+      //     error: "Not authorized"
+      //   }
+      // }
 
-      const { id } = session.user
-
+      // const { id } = session.user
+      console.log(args)
       try {
-        const existingUser = await prisma.user.findUnique({
-          where: {
-            username
-          }
-        })
+        // const existingUser = await prisma.user.findUnique({
+        //   where: {
+        //     username: args.username
+        //   }
+        // })
 
-        if(existingUser){
-          return {
-            error: "Username already taken. Try another."
-          }
-        }
+        // if (existingUser) {
+        //   return {
+        //     error: "Username already taken. Try another."
+        //   }
+        // }
 
-        await prisma.user.update({
-          where: {
-            id
-          },
-          data: {
-            username
-          }
-        })
+        // await prisma.user.update({
+        //   where: {
+        //     id: args.userId
+        //   },
+        //   data: {
+        //     username:args.username
+        //   }
+        // })
 
         return {
           success: true

@@ -11,7 +11,15 @@ export const userTypeDefs = gql`
   }
 
   type Mutation {
-    createUsername(username: String): CreateUsernameResponse
+    createUsername(data: CreateUsernameInput): CreateUsernameResponse
+  }
+
+  input CreateUsernameInput {
+    username: String
+    email: String
+    image: String
+    name: String
+    userId: String
   }
 
   type CreateUsernameResponse {

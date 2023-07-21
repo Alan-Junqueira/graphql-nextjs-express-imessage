@@ -8,7 +8,6 @@ export const updateUser = async (e: FormData) => {
 
     if (!username) return
 
-    console.log(username)
   } catch (error) {
     console.log('updateUser error', error)
   }

@@ -13,8 +13,9 @@ import { getSession } from 'next-auth/react'
 import { GraphQlContext, ISession } from './@types/types';
 import { PrismaClient } from '@prisma/client'
 
+dotenv.config()
+
 async function main() {
-  dotenv.config()
   const app = express();
   const httpServer = http.createServer(app);
 
@@ -36,9 +37,10 @@ async function main() {
     csrfPrevention: true,
     cache: 'bounded',
     context: async ({ req, res }): Promise<GraphQlContext> => {
-      console.log(req)
-      // const session = await getSession({ req }) as ISession | null
-      const session = null
+      const session = await getSession({ req }) as ISession | null
+      // const session = null
+
+      console.log(session)
 
       return {
         session,

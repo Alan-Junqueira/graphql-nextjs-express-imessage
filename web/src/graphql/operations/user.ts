@@ -4,9 +4,7 @@ export const userOperations = {
   Queries: {},
   Mutations: {
     createUsername: gql`
-      mutation CreateUsername(
-        $username: String!
-      ){
+      mutation CreateUsername($username: String!){
         createUsername(username: $username){
           success
           error

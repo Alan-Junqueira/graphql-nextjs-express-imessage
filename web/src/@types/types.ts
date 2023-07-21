@@ -7,4 +7,8 @@ export interface ICreateUsernameData {
 
 export interface ICreateUsernameVariables {
   username: string
+  email: string
+  image: string
+  name: string
+  userId: string
 }
