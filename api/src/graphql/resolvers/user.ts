@@ -1,18 +1,20 @@
-import { GraphQlContext, ICreateUsernameResponse } from "../../@types/types"
-import { CreateUsernameProps } from "../typeDefs/userDTO"
+import { GraphQlContext, ICreateUsernameResponse } from "../../@types/types";
+import { CreateUsernameProps } from "../typeDefs/userDTO";
 
 export const userResolvers = {
   Query: {
-    searchUsers: () => { }
+    searchUsers: () => {},
   },
   Mutation: {
     createUsername: async (
       _parent: any,
       args: CreateUsernameProps,
-      context: GraphQlContext,
+      // context: GraphQlContext,
+      context: any,
       _info: any
     ): Promise<ICreateUsernameResponse> => {
       // const { prisma, session } = context
+      // console.log("context session", context.session);
 
       // if (!args.email || !args.image || !args.name || args.userId) {
       //   return {
@@ -21,7 +23,7 @@ export const userResolvers = {
       // }
 
       // const { id } = session.user
-      console.log(args)
+      console.log("args",args);
       try {
         // const existingUser = await prisma.user.findUnique({
         //   where: {
@@ -45,14 +47,14 @@ export const userResolvers = {
         // })
 
         return {
-          success: true
-        }
+          success: true,
+        };
       } catch (error) {
-        console.log("CREATE USERNAME ERROR", error)
+        console.log("CREATE USERNAME ERROR", error);
         return {
-          error: error?.message
-        }
+          error: error?.message,
+        };
       }
-    }
-  }
-}
+    },
+  },
+};
