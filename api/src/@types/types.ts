@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { ISODateString } from "next-auth";
-/** 
+import { ISODateString, Session } from "next-auth";
+/**
 *  * Users
 */
 
@@ -22,7 +22,7 @@ export interface ICreateUsernameResponse {
 
 
 export interface GraphQlContext {
-  session: ISession | null
+  session: Session | null
   prisma: PrismaClient
   // pubsub
 }

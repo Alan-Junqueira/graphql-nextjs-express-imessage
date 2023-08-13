@@ -37,7 +37,7 @@ async function main() {
     csrfPrevention: true,
     cache: "bounded",
     context: async ({ req, res }): Promise<GraphQlContext> => {
-      // const session = await getSession({ req }) as ISession ?? null
+      // const session = ((await getSession({ req })) as ISession) ?? null;
       // const session = null
 
       return {

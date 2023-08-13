@@ -9,8 +9,8 @@ export const userResolvers = {
     createUsername: async (
       _parent: any,
       args: CreateUsernameProps,
-      // context: GraphQlContext,
-      context: any,
+      _context: GraphQlContext,
+      // context: any,
       _info: any
     ): Promise<ICreateUsernameResponse> => {
       // const { prisma, session } = context
