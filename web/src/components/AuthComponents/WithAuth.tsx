@@ -7,6 +7,8 @@ import { ICreateUsernameData, ICreateUsernameVariables } from "@/@types/types";
 
 import { Text, Input, Button, FormControl } from "@/chakra/chakra-components";
 import { Session } from "next-auth";
+import { reloadSession } from "@/app/actions/reload-session";
+import { useRouter } from "next/navigation";
 
 interface IWithAuth {
   session: Session;
@@ -14,22 +16,21 @@ interface IWithAuth {
 
 export const WithAuth = ({ session }: IWithAuth) => {
   const [username, setUsername] = useState("");
-  const [createUsername, { data, loading, error }] = useMutation<
+  const router = useRouter();
+
+  const [createUsername, { loading, error }] = useMutation<
     ICreateUsernameData,
     ICreateUsernameVariables
   >(userOperations.Mutations.createUsername, {
     fetchPolicy: "no-cache",
   });
 
-  console.log("HERE IS THE DATA", data, loading, error);
-  console.log(session);
-
   const handleUpdateUser = async (e: FormEvent) => {
     e.preventDefault();
     try {
       if (!username) return;
       console.log("SESSION", session);
-      createUsername({
+      const { data } = await createUsername({
         variables: {
           username,
           email: session.user.email ?? "",
@@ -38,8 +39,22 @@ export const WithAuth = ({ session }: IWithAuth) => {
           userId: session.user.id ?? "",
         },
       });
+
+      if (!data?.createUsername) {
+        throw new Error();
+      }
+
+      if (data.createUsername.error) {
+        const {
+          createUsername: { error },
+        } = data;
+
+        throw new Error(error);
+      }
+
+      router.refresh();
     } catch (error) {
-      console.log("updateUser error", error);
+      console.log("handleUpdateUser error", error);
     }
   };
 

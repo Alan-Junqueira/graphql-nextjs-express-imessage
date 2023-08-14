@@ -16,10 +16,10 @@ export const userResolvers = {
       const { prisma, session } = context;
       // console.log("context session", context.session);
 
-      if (!args.email || !args.image || !args.name || args.userId) {
+      if (!args.email || !args.image || !args.name || !args.userId) {
         return {
-          error: "Not authorized"
-        }
+          error: "Not authorized",
+        };
       }
 
       // const { id } = session.user

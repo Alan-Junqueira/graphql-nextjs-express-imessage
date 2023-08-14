@@ -1,5 +1,6 @@
-'use server'
+"use client";
 
-export const reloadSession = async () => {
-
-}
+export const reloadSession = () => {
+  const event = new Event("visibilitychange");
+  document.dispatchEvent(event);
+};
