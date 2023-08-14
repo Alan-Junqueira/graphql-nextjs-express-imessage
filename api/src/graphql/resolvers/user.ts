@@ -9,42 +9,41 @@ export const userResolvers = {
     createUsername: async (
       _parent: any,
       args: CreateUsernameProps,
-      _context: GraphQlContext,
+      context: GraphQlContext,
       // context: any,
       _info: any
     ): Promise<ICreateUsernameResponse> => {
-      // const { prisma, session } = context
+      const { prisma, session } = context;
       // console.log("context session", context.session);
 
-      // if (!args.email || !args.image || !args.name || args.userId) {
-      //   return {
-      //     error: "Not authorized"
-      //   }
-      // }
+      if (!args.email || !args.image || !args.name || args.userId) {
+        return {
+          error: "Not authorized"
+        }
+      }
 
       // const { id } = session.user
-      console.log("args",args);
       try {
-        // const existingUser = await prisma.user.findUnique({
-        //   where: {
-        //     username: args.username
-        //   }
-        // })
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            username: args.username,
+          },
+        });
 
-        // if (existingUser) {
-        //   return {
-        //     error: "Username already taken. Try another."
-        //   }
-        // }
+        if (existingUser) {
+          return {
+            error: "Username already taken. Try another.",
+          };
+        }
 
-        // await prisma.user.update({
-        //   where: {
-        //     id: args.userId
-        //   },
-        //   data: {
-        //     username:args.username
-        //   }
-        // })
+        await prisma.user.update({
+          where: {
+            id: args.userId,
+          },
+          data: {
+            username: args.username,
+          },
+        });
 
         return {
           success: true,

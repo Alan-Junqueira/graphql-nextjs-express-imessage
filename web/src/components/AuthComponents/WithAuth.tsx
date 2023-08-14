@@ -35,7 +35,7 @@ export const WithAuth = ({ session }: IWithAuth) => {
           email: session.user.email ?? "",
           image: session.user.image ?? "",
           name: session.user.name ?? "",
-          userId: session.user.id,
+          userId: session.user.id ?? "",
         },
       });
     } catch (error) {
