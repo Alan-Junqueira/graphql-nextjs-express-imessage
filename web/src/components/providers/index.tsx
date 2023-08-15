@@ -8,6 +8,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "@/graphql/apolo-client";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import { Toaster } from "react-hot-toast";
 
 interface IProviders {
   session: Session | null;
@@ -19,7 +20,10 @@ export const Providers = ({ session, children }: IProviders) => {
     <ApolloProvider client={client}>
       <SessionProvider session={session}>
         <CacheProvider>
-          <ChakraProvider theme={theme}>{children}</ChakraProvider>
+          <ChakraProvider theme={theme}>
+            {children}
+            <Toaster />
+          </ChakraProvider>
         </CacheProvider>
       </SessionProvider>
     </ApolloProvider>

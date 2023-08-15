@@ -9,6 +9,7 @@ import { Text, Input, Button, FormControl } from "@/chakra/chakra-components";
 import { Session } from "next-auth";
 import { reloadSession } from "@/app/actions/reload-session";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 interface IWithAuth {
   session: Session;
@@ -52,8 +53,11 @@ export const WithAuth = ({ session }: IWithAuth) => {
         throw new Error(error);
       }
 
+      toast.success("Username successfully created! 🚀")
+
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error?.message)
       console.log("handleUpdateUser error", error);
     }
   };
