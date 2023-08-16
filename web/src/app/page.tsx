@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <Box>
       {session?.user?.username ? (
-        <Chat />
+        <Chat session={session} />
       ) : (
         <Auth session={session} />
       )}

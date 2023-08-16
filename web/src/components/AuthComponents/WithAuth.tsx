@@ -78,7 +78,7 @@ export const WithAuth = ({ session }: IWithAuth) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <Button type="submit" width="100%">
+        <Button type="submit" width="100%" isLoading={loading}>
           Save
         </Button>
       </FormControl>
