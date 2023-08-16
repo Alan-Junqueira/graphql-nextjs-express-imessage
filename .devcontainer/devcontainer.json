@@ -37,7 +37,8 @@
 				"streetsidesoftware.code-spell-checker",
 				"graphql.vscode-graphql-syntax",
 				"graphql.vscode-graphql",
-				"burkeholland.simple-react-snippets"
+				"burkeholland.simple-react-snippets",
+				"sainoba.px-to-rem"
 			]
 		}
 	}
