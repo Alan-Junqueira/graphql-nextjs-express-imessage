@@ -1,13 +1,13 @@
 import { gql } from "apollo-server-core";
 
 export const userTypeDefs = gql`
-  type User {
+  type SearchedUser {
     id: String
     username: String
   }
 
   type Query {
-    searchUsers(username: String): [User]
+    searchUsers(myUsername: String, usernameToSearch: String): [SearchedUser]
   }
 
   type Mutation {

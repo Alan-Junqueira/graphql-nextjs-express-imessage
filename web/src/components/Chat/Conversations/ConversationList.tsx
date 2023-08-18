@@ -30,7 +30,7 @@ export const ConversationList = ({ session }: IConversationList) => {
           Find or start a conversation
         </Text>
       </Box>
-      <ConversationModal isOpen={isOpen} onClose={onClose} />
+      <ConversationModal isOpen={isOpen} onClose={onClose} session={session}/>
     </Box>
   );
 };

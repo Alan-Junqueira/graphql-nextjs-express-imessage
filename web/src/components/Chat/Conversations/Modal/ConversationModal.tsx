@@ -14,14 +14,16 @@ import {
 } from "@/chakra/chakra-components";
 import { userOperations } from "@/graphql/operations/user";
 import { useLazyQuery, useQuery } from "@apollo/client";
+import { Session } from "next-auth";
 import { FormEvent, useState } from "react";
 
 interface IModal {
   isOpen: boolean;
   onClose: () => void;
+  session: Session;
 }
 
-export const ConversationModal = ({ isOpen, onClose }: IModal) => {
+export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
   const [username, setUsername] = useState("");
 
   const [searchUsers, { data, loading, error }] = useLazyQuery<
@@ -29,12 +31,15 @@ export const ConversationModal = ({ isOpen, onClose }: IModal) => {
     ISearchUsersInput
   >(userOperations.Queries.searchUsers);
 
-  console.log(data, loading, error);
-
   const handleSearchUser = async (e: FormEvent) => {
     e.preventDefault();
 
-    searchUsers({ variables: { username } });
+    searchUsers({
+      variables: {
+        usernameToSearch: username,
+        myUsername: session.user.username,
+      },
+    });
   };
   return (
     <>
@@ -51,7 +56,11 @@ export const ConversationModal = ({ isOpen, onClose }: IModal) => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
-                <Button type="submit" isDisabled={!username}>
+                <Button
+                  type="submit"
+                  isDisabled={!username}
+                  isLoading={loading}
+                >
                   Search
                 </Button>
               </Stack>

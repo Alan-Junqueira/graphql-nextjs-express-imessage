@@ -14,7 +14,8 @@ export interface ICreateUsernameVariables {
 }
 
 export interface ISearchUsersInput {
-  username: string;
+  usernameToSearch: string;
+  myUsername: string;
 }
 
 export interface ISearchUsersData {
