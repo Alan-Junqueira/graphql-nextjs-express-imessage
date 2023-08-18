@@ -1,6 +1,10 @@
 "use client";
 
-import { ISearchUsersData, ISearchUsersInput } from "@/@types/types";
+import {
+  ISearchUsersData,
+  ISearchUsersInput,
+  ISearchedUser,
+} from "@/@types/types";
 import {
   Button,
   Input,
@@ -17,6 +21,7 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import { Session } from "next-auth";
 import { FormEvent, useState } from "react";
 import { UserSearchList } from "./UserSearchList";
+import { Participants } from "./Participants";
 
 interface IModal {
   isOpen: boolean;
@@ -26,6 +31,7 @@ interface IModal {
 
 export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
   const [username, setUsername] = useState("");
+  const [participants, setParticipants] = useState<Array<ISearchedUser>>([]);
 
   const [searchUsers, { data, loading, error }] = useLazyQuery<
     ISearchUsersData,
@@ -42,6 +48,16 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
       },
     });
   };
+
+  const addParticipant = (user: ISearchedUser) => {
+    setParticipants((prev) => [...prev, user]);
+    setUsername("");
+  };
+
+  const removeParticipant = (userId: string) => {
+    setParticipants((prev) => prev.filter((p) => p.id !== userId));
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -66,7 +82,19 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
                 </Button>
               </Stack>
             </form>
-            {data?.searchUsers && <UserSearchList users={data.searchUsers} />}
+            {data?.searchUsers && (
+              <UserSearchList
+                users={data.searchUsers}
+                addParticipant={addParticipant}
+              />
+            )}
+
+            {participants.length > 0 && (
+              <Participants
+                participants={participants}
+                removeParticipant={removeParticipant}
+              />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

@@ -9,6 +9,7 @@ import { client } from "@/graphql/apolo-client";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import { Toaster } from "react-hot-toast";
+import { IconContext } from "react-icons";
 
 interface IProviders {
   session: Session | null;
@@ -21,7 +22,11 @@ export const Providers = ({ session, children }: IProviders) => {
       <SessionProvider session={session}>
         <CacheProvider>
           <ChakraProvider theme={theme}>
-            {children}
+            <IconContext.Provider
+              value={{ style: { verticalAlign: "middle" } }}
+            >
+              {children}
+            </IconContext.Provider>
             <Toaster />
           </ChakraProvider>
         </CacheProvider>

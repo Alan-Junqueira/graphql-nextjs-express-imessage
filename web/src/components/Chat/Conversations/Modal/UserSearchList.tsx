@@ -3,9 +3,10 @@ import { Avatar, Button, Flex, Stack, Text } from "@/chakra/chakra-components";
 
 interface IUserSearchList {
   users: Array<ISearchedUser>;
+  addParticipant: (user: ISearchedUser) => void;
 }
 
-export const UserSearchList = ({ users }: IUserSearchList) => {
+export const UserSearchList = ({ users, addParticipant }: IUserSearchList) => {
   return (
     <>
       {users.length === 0 ? (
@@ -31,7 +32,7 @@ export const UserSearchList = ({ users }: IUserSearchList) => {
                 <Button
                   bg="brand.100"
                   _hover={{ bg: "brand.100" }}
-                  onClick={() => {}}
+                  onClick={() => addParticipant(user)}
                 >
                   Select
                 </Button>
