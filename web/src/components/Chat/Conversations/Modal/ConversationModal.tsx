@@ -16,6 +16,7 @@ import { userOperations } from "@/graphql/operations/user";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { Session } from "next-auth";
 import { FormEvent, useState } from "react";
+import { UserSearchList } from "./UserSearchList";
 
 interface IModal {
   isOpen: boolean;
@@ -46,7 +47,7 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg="#2d2d2d" pb={4}>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Create a Conversation</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSearchUser}>
@@ -65,6 +66,7 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
                 </Button>
               </Stack>
             </form>
+            {data?.searchUsers && <UserSearchList users={data.searchUsers} />}
           </ModalBody>
         </ModalContent>
       </Modal>
