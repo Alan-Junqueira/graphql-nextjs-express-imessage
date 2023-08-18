@@ -1,11 +1,6 @@
 "use client";
 
 import {
-  ISearchUsersData,
-  ISearchUsersInput,
-  ISearchedUser,
-} from "@/@types/types";
-import {
   Button,
   Input,
   Modal,
@@ -17,12 +12,22 @@ import {
   Stack,
 } from "@/chakra/chakra-components";
 import { userOperations } from "@/graphql/operations/user";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { Session } from "next-auth";
 import { FormEvent, useState } from "react";
 import { UserSearchList } from "./UserSearchList";
 import { Participants } from "./Participants";
 import { toast } from "react-hot-toast";
+import { conversationOperations } from "@/graphql/operations/conversation";
+import {
+  ISearchedUser,
+  ISearchUsersData,
+  ISearchUsersInput,
+} from "@/@types/users";
+import {
+  ICreateConversationData,
+  ICreateConversationInput,
+} from "@/@types/conversation";
 
 interface IModal {
   isOpen: boolean;
@@ -39,6 +44,11 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
     ISearchUsersInput
   >(userOperations.Queries.searchUsers);
 
+  const [createConversation, { loading: createConversationLoading }] =
+    useMutation<ICreateConversationData, ICreateConversationInput>(
+      conversationOperations.Mutations.createConversation
+    );
+
   const handleSearchUser = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -51,7 +61,19 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
   };
 
   const onCreateConversation = async () => {
+    const participantIds = [
+      session.user.id,
+      ...participants.map((participant) => participant.id),
+    ];
+
     try {
+      const { data } = await createConversation({
+        variables: {
+          participantIds,
+        },
+      });
+
+      console.log("createConversation data", data)
     } catch (error: any) {
       console.log("onCreateConversation", error);
       toast.error(error?.message);
@@ -110,7 +132,8 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
                   width="100%"
                   mt={6}
                   _hover={{ bg: "brand.100" }}
-                  onClick={() => {}}
+                  isLoading={createConversationLoading}
+                  onClick={onCreateConversation}
                 >
                   Create Conversation
                 </Button>
