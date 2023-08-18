@@ -22,6 +22,7 @@ import { Session } from "next-auth";
 import { FormEvent, useState } from "react";
 import { UserSearchList } from "./UserSearchList";
 import { Participants } from "./Participants";
+import { toast } from "react-hot-toast";
 
 interface IModal {
   isOpen: boolean;
@@ -47,6 +48,14 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
         myUsername: session.user.username,
       },
     });
+  };
+
+  const onCreateConversation = async () => {
+    try {
+    } catch (error: any) {
+      console.log("onCreateConversation", error);
+      toast.error(error?.message);
+    }
   };
 
   const addParticipant = (user: ISearchedUser) => {
@@ -90,10 +99,22 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
             )}
 
             {participants.length > 0 && (
-              <Participants
-                participants={participants}
-                removeParticipant={removeParticipant}
-              />
+              <>
+                <Participants
+                  participants={participants}
+                  removeParticipant={removeParticipant}
+                />
+
+                <Button
+                  bg="brand.100"
+                  width="100%"
+                  mt={6}
+                  _hover={{ bg: "brand.100" }}
+                  onClick={() => {}}
+                >
+                  Create Conversation
+                </Button>
+              </>
             )}
           </ModalBody>
         </ModalContent>
