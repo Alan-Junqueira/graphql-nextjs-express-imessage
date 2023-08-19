@@ -42,7 +42,10 @@ model User {
   username      String?   @unique
   emailVerified DateTime?
   image         String?
+
   accounts      Account[]
+  conversations ConversationParticipant[]
+  messages      Message[]
   sessions      Session[]
 }
 
@@ -53,4 +56,43 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Conversation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  latestMessageId String   @unique @map("latest_message_id") @db.ObjectId
+  latestMessage   Message? @relation(name: "latestConversationMessage", fields: [latestMessageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  conversations ConversationParticipant[]
+  messages      Message[]
+}
+
+model ConversationParticipant {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  hasSeenLatestMessage Boolean  @map("has_seen_latest_message")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  userId         String @map("user_id") @db.ObjectId
+  conversationId String @map("conversation_id") @db.ObjectId
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  conversationId String @map("conversation_id") @db.ObjectId
+  senderId       String @map("sender_id") @db.ObjectId
+
+  converstion Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender      User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  isLatestIn Conversation? @relation(name: "latestConversationMessage")
 }
