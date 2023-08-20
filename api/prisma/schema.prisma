@@ -66,7 +66,7 @@ model Conversation {
   latestMessageId String   @unique @map("latest_message_id") @db.ObjectId
   latestMessage   Message? @relation(name: "latestConversationMessage", fields: [latestMessageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  conversations ConversationParticipant[]
+  participants ConversationParticipant[]
   messages      Message[]
 }
 
