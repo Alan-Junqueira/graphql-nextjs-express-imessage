@@ -9,7 +9,7 @@ export const conversationResolvers = {
       args: { participantIds: Array<string> },
       context: GraphQlContext,
       _info: any
-    ) => {
+    ): Promise<{ conversationId: string }> => {
       const { prisma /*session */ } = context;
       const { participantIds } = args;
 
@@ -18,7 +18,6 @@ export const conversationResolvers = {
       // }
 
       const userId = participantIds[0];
-      console.log(participantIds);
 
       try {
         const conversation = await prisma.conversation.create({
@@ -34,6 +33,12 @@ export const conversationResolvers = {
           },
           include: conversationPopulated,
         });
+
+        // emit a CONVERSATION_CREATED event using pubsub
+
+        return {
+          conversationId: conversation.id,
+        };
       } catch (error) {
         console.log("createConversation error", error);
         throw new ApolloError("Error creating conversation");
