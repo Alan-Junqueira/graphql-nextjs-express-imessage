@@ -28,6 +28,7 @@ import {
   ICreateConversationData,
   ICreateConversationInput,
 } from "@/@types/conversation";
+import { useRouter } from "next/navigation";
 
 interface IModal {
   isOpen: boolean;
@@ -38,6 +39,8 @@ interface IModal {
 export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
   const [username, setUsername] = useState("");
   const [participants, setParticipants] = useState<Array<ISearchedUser>>([]);
+
+  const router = useRouter();
 
   const [searchUsers, { data, loading, error }] = useLazyQuery<
     ISearchUsersData,
@@ -73,7 +76,19 @@ export const ConversationModal = ({ isOpen, onClose, session }: IModal) => {
         },
       });
 
-      console.log("createConversation data", data)
+      if (!data?.createConversation) {
+        throw new Error("Fail to create conversation");
+      }
+
+      const {
+        createConversation: { conversationId },
+      } = data;
+
+      router.push(`?conversationId=${conversationId}`);
+
+      setParticipants([]);
+      setUsername("");
+      onClose();
     } catch (error: any) {
       console.log("onCreateConversation", error);
       toast.error(error?.message);
