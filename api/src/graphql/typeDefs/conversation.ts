@@ -13,7 +13,7 @@ export const conversationTypeDefs = gql`
 
   type Conversation {
     id: String
-    # latestMessage: Message
+    latestMessage: Message
     participants: [Participant]
     createdAt: Date
     updatedAt: Date
@@ -26,6 +26,6 @@ export const conversationTypeDefs = gql`
   }
 
   type Query {
-    conversations: [Conversation]
+    conversations(userId: String): [Conversation]
   }
 `;

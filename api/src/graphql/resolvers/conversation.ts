@@ -9,7 +9,9 @@ export const conversationResolvers = {
       args: { userId: string },
       context: GraphQlContext,
       _info: any
-    ) => {},
+    ) => {
+      console.log("INSIDE CONVERSATION")
+    },
   },
   Mutation: {
     createConversation: async (
