@@ -35,7 +35,7 @@ export const ConversationsWrapper = ({ session }: IConversationsWrapper) => {
       py={6}
       px={3}
     >
-      <ConversationList session={session} />
+      <ConversationList session={session} conversations={conversationsData?.conversations || []}/>
     </Box>
   );
 };

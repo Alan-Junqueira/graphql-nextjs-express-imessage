@@ -4,12 +4,18 @@ import { Session } from "next-auth";
 import { Box, Text } from "@/chakra/chakra-components";
 import { useState } from "react";
 import { ConversationModal } from "./Modal/ConversationModal";
+import { TConversationPopulated } from "../../../../../api/src/@types/Conversations";
+import { ConversationItem } from "./ConversationItem";
 
 interface IConversationList {
   session: Session;
+  conversations: Array<TConversationPopulated>;
 }
 
-export const ConversationList = ({ session }: IConversationList) => {
+export const ConversationList = ({
+  session,
+  conversations,
+}: IConversationList) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => setIsOpen(true);
@@ -30,7 +36,12 @@ export const ConversationList = ({ session }: IConversationList) => {
           Find or start a conversation
         </Text>
       </Box>
-      <ConversationModal isOpen={isOpen} onClose={onClose} session={session}/>
+
+      <ConversationModal isOpen={isOpen} onClose={onClose} session={session} />
+
+      {conversations.map((conversation) => (
+        <ConversationItem conversation={conversation} key={conversation.id} />
+      ))}
     </Box>
   );
 };
