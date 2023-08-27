@@ -1,4 +1,4 @@
-import { ISearchedUser } from "@/@types/types";
+import { ISearchedUser } from "@/@types/users";
 import { Avatar, Button, Flex, Stack, Text } from "@/chakra/chakra-components";
 
 interface IUserSearchList {

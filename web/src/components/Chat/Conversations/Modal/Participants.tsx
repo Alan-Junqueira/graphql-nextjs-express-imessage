@@ -1,4 +1,4 @@
-import { ISearchedUser } from "@/@types/types";
+import { ISearchedUser } from "@/@types/users";
 import { Flex, Stack, Text } from "@/chakra/chakra-components";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
