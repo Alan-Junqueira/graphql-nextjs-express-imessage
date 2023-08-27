@@ -2,6 +2,7 @@ import { ApolloError } from "apollo-server-core";
 import { GraphQlContext } from "../../@types/types";
 import { Prisma } from "@prisma/client";
 import { TConversationPopulated } from "../../@types/Conversations";
+import { pubsubLabels } from "../../helpers/pubsub-labels";
 
 export const conversationResolvers = {
   Query: {
@@ -46,7 +47,7 @@ export const conversationResolvers = {
       context: GraphQlContext,
       _info: any
     ): Promise<{ conversationId: string }> => {
-      const { prisma /*session */ } = context;
+      const { prisma /*session */, pubsub } = context;
       const { participantIds } = args;
 
       // if(!session.user){
@@ -71,6 +72,9 @@ export const conversationResolvers = {
         });
 
         // emit a CONVERSATION_CREATED event using pubsub
+        pubsub.publish(pubsubLabels.conversationCreated, {
+          conversationCreated: conversation,
+        });
 
         return {
           conversationId: conversation.id,
@@ -79,6 +83,20 @@ export const conversationResolvers = {
         console.log("createConversation error", error);
         throw new ApolloError("Error creating conversation");
       }
+    },
+  },
+  Subscription: {
+    conversationCreated: {
+      subscribe: (
+        _parent: any,
+        args: any,
+        context: GraphQlContext,
+        _info: any
+      ) => {
+        const { pubsub } = context;
+
+        pubsub.asyncIterator([pubsubLabels.conversationCreated]);
+      },
     },
   },
 };
