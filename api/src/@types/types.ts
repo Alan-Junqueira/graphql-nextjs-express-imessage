@@ -1,8 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { ISODateString, Session } from "next-auth";
-/**
- *  * Users
- */
+import { Context as GraphqlWsContext } from "graphql-ws/lib/server";
+import { PubSub } from "graphql-subscriptions";
 
 export interface IUser {
   id: string;
@@ -25,5 +24,11 @@ export interface ICreateUsernameResponse {
 export interface GraphQlContext {
   session: Session | null;
   prisma: PrismaClient;
-  // pubsub
+  pubsub: PubSub;
+}
+
+export interface ISubscriptionContext extends GraphqlWsContext {
+  connectionParams: {
+    session?: ISession;
+  };
 }
